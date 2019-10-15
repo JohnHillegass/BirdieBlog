@@ -1,0 +1,66 @@
+<!-- “Parent Template” -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% endblock %}
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                Birdie Blog
+                <br />
+                <i class="fas fa-crow"></i>
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{{ url_for('main.index') }}">
+                    Home
+                </a>
+                <a class="navbar-item" href="{{ url_for('main.recentPosts') }}">
+                    Recent Posts
+                </a>
+                {% if current_user.authenticated %}
+                <a class="navbar-item" href="{{ url_for('main.myPosts') }}">
+                    My Posts
+                </a>
+                {% endif %}
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if not current_user.authenticated %}
+                        <a class="button is-primary" href="{{ url_for('auth.signup') }}">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light" href="{{ url_for('auth.login') }}">
+                            Log in
+                        </a>
+                        {% endif %}
+                        {% if current_user.authenticated %}
+                            <a href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+
+</html>

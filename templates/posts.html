@@ -1,0 +1,57 @@
+<!-- Child Template -->
+{% extends "base.html" %}
+{% block title %} All Posts {% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="columns is-mobile is-centered">
+    <div class="column is-half">
+      <br/>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% if messages[0] == 'DELETE' %}
+      <div class="notification is-danger">
+          {{ messages[1] }}
+      </div>
+      {% endif %}
+      {% if messages[0] == 'CREATE' %}
+      <div class="notification is-success">
+          {{ messages[1] }}
+      </div>
+      {% endif %}
+      {% if messages[0] == 'SAVE' %}
+      <div class="notification is-primary">
+          {{ messages[1] }}
+      </div>
+      {% endif %}
+      {% endif %}
+      {% endwith %}
+{% for post in posts %}
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        {{post.name}}
+      </p>
+    </header>
+    <div class="card-content">
+      <div class="content">
+        {{post.description}}
+      </div>
+    </div>
+    <footer class="card-footer">
+      <a href="{{ url_for('main.viewPost', post_id = post.id ) }}" class="card-footer-item" data-id={{post.id}}>View</a>
+      {% if yourPosts %}
+      <a href="{{ url_for('main.editPost', post_id = post.id ) }}" class="card-footer-item" data-id={{post.id}}>Edit</a>
+      <a href="{{ url_for('main.deletePost', post_id = post.id ) }}" class="card-footer-item" data-id={{post.id}}>Delete</a>
+      {% endif %}
+    </footer>
+  </div>
+  <br/>
+{% endfor %}
+{% if current_user.authenticated %}
+<a class="button is-block is-info is-large is-fullwidth" href="{{ url_for('main.createPost') }}">Create</a>
+{% endif %}
+</div>
+</div>
+{% endblock %}

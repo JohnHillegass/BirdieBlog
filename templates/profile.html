@@ -1,0 +1,22 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container has-text-centered">
+    <h1 class="title">
+      Welcome, {{ user.name }}!
+    </h1>
+    <br/>
+    <br/>
+    <h3>
+      Email : {{ user.email }}
+    </h3>
+    <br/>
+    <br/>
+    <br/>
+    <h3>
+        Bio : {{ user.bio }}
+    </h3>
+</div>
+{% endblock %}
