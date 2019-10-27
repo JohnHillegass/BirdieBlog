@@ -49,10 +49,12 @@ def signup_post():
     name = request.form.get('name')
     password = request.form.get('password')
     bio = request.form.get('bio')
+    
+    # if this returns a user, then the email already exists in database
+    user = session.query(User).filter_by(email=email).first()
 
-    user = session.query(User).filter_by(email=email).first() # if this returns a user, then the email already exists in database
-
-    if user: # if a user is found, we want to redirect back to signup page so user can try again  
+    # if a user is found, we want to redirect back to signup page so user can try again  
+    if user:
         flash('Email address already exists')
         return redirect(url_for('auth.signup'))
 
